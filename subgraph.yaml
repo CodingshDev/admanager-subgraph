@@ -1,0 +1,80 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AdvertisementManager
+    network: base
+    source:
+      address: "0x020243968704ccf8202afd1f1134a90953385877"
+      abi: AdvertisementManager
+      startBlock: 20259378
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AchievementUnlocked
+        - AdvertisementDeactivated
+        - EngagementRecorded
+        - EngagementRewardMinted
+        - LevelUp
+        - NewAdvertisement
+        - NewChiefOfAdvertising
+        - NewCommunityChallenge
+        - NewReferral
+        - Paused
+        - ReferralRewardDistributed
+        - ReputationUpdated
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - SpecialEventStarted
+        - Unpaused
+        - WeeklyBonusMinted
+        - WithdrawCompleted
+      abis:
+        - name: AdvertisementManager
+          file: ./abis/AdvertisementManager.json
+      eventHandlers:
+        - event: AchievementUnlocked(address,uint256,string)
+          handler: handleAchievementUnlocked
+        - event: AdvertisementDeactivated(indexed uint256)
+          handler: handleAdvertisementDeactivated
+        - event: EngagementRecorded(indexed uint256,address,uint256)
+          handler: handleEngagementRecorded
+        - event: EngagementRewardMinted(address,uint256)
+          handler: handleEngagementRewardMinted
+        - event: LevelUp(address,uint256)
+          handler: handleLevelUp
+        - event: NewAdvertisement(string,string,uint256,address,address)
+          handler: handleNewAdvertisement
+        - event: NewChiefOfAdvertising(indexed address,uint256,uint256)
+          handler: handleNewChiefOfAdvertising
+        - event: NewCommunityChallenge(string,uint256,uint256,uint256)
+          handler: handleNewCommunityChallenge
+        - event: NewReferral(address,address)
+          handler: handleNewReferral
+        - event: Paused(address)
+          handler: handlePaused
+        - event: ReferralRewardDistributed(address,uint256,uint256)
+          handler: handleReferralRewardDistributed
+        - event: ReputationUpdated(address,uint256)
+          handler: handleReputationUpdated
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: SpecialEventStarted(string,uint256,uint256,uint256)
+          handler: handleSpecialEventStarted
+        - event: Unpaused(address)
+          handler: handleUnpaused
+        - event: WeeklyBonusMinted(address,uint256)
+          handler: handleWeeklyBonusMinted
+        - event: WithdrawCompleted(address,uint256)
+          handler: handleWithdrawCompleted
+      file: ./src/advertisement-manager.ts

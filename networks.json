@@ -1,0 +1,8 @@
+{
+  "base": {
+    "AdvertisementManager": {
+      "address": "0x020243968704ccf8202afd1f1134a90953385877",
+      "startBlock": 20259378
+    }
+  }
+}

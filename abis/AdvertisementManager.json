@@ -1,0 +1,1267 @@
+[
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  { "inputs": [], "type": "error", "name": "AccessControlBadConfirmation" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" },
+      { "internalType": "bytes32", "name": "neededRole", "type": "bytes32" }
+    ],
+    "type": "error",
+    "name": "AccessControlUnauthorizedAccount"
+  },
+  { "inputs": [], "type": "error", "name": "EnforcedPause" },
+  { "inputs": [], "type": "error", "name": "ExpectedPause" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "x", "type": "uint256" },
+      { "internalType": "uint256", "name": "y", "type": "uint256" }
+    ],
+    "type": "error",
+    "name": "PRBMath_MulDiv18_Overflow"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "x", "type": "uint256" },
+      { "internalType": "uint256", "name": "y", "type": "uint256" },
+      { "internalType": "uint256", "name": "denominator", "type": "uint256" }
+    ],
+    "type": "error",
+    "name": "PRBMath_MulDiv_Overflow"
+  },
+  {
+    "inputs": [{ "internalType": "UD60x18", "name": "x", "type": "uint256" }],
+    "type": "error",
+    "name": "PRBMath_UD60x18_Exp2_InputTooBig"
+  },
+  {
+    "inputs": [{ "internalType": "UD60x18", "name": "x", "type": "uint256" }],
+    "type": "error",
+    "name": "PRBMath_UD60x18_Log_InputTooSmall"
+  },
+  { "inputs": [], "type": "error", "name": "ReentrancyGuardReentrantCall" },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "achievementId",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "AchievementUnlocked",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "adIndex",
+        "type": "uint256",
+        "indexed": true
+      }
+    ],
+    "type": "event",
+    "name": "AdvertisementDeactivated",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "adIndex",
+        "type": "uint256",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "EngagementRecorded",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "EngagementRewardMinted",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "newLevel",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "LevelUp",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "link",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "internalType": "string",
+        "name": "imageUrl",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "address",
+        "name": "advertiser",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "NewAdvertisement",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newChief",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenBalance",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "referralLevel",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "NewChiefOfAdvertising",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "goal",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "deadline",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "NewCommunityChallenge",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "referred",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "NewReferral",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "Paused",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "level",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "ReferralRewardDistributed",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "newReputation",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "ReputationUpdated",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "bytes32",
+        "name": "previousAdminRole",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "bytes32",
+        "name": "newAdminRole",
+        "type": "bytes32",
+        "indexed": true
+      }
+    ],
+    "type": "event",
+    "name": "RoleAdminChanged",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "sender",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "type": "event",
+    "name": "RoleGranted",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "internalType": "address",
+        "name": "sender",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "type": "event",
+    "name": "RoleRevoked",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "startTime",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "endTime",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "rewardMultiplier",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "SpecialEventStarted",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "Unpaused",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "WeeklyBonusMinted",
+    "anonymous": false
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "type": "event",
+    "name": "WithdrawCompleted",
+    "anonymous": false
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "ADMIN_ROLE",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "CHIEF_REFERRAL_THRESHOLD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "CHIEF_TOKEN_THRESHOLD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "DEFAULT_ADMIN_ROLE",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "ENGAGEMENT_REWARD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "INITIAL_PRICE",
+    "outputs": [{ "internalType": "UD60x18", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "LEVEL_UP_THRESHOLD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "OPERATOR_ROLE",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "PRICE_MULTIPLIER",
+    "outputs": [{ "internalType": "UD60x18", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "REFERRAL_DISCOUNT",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "REFERRAL_REWARD",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "WEEKLY_BONUS",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "achievements",
+    "outputs": [
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "description", "type": "string" },
+      { "internalType": "uint256", "name": "threshold", "type": "uint256" },
+      { "internalType": "uint256", "name": "reward", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "adToken",
+    "outputs": [
+      { "internalType": "contract AdToken", "name": "", "type": "address" }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "uint256", "name": "_threshold", "type": "uint256" },
+      { "internalType": "uint256", "name": "_reward", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "addAchievement"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "advertisements",
+    "outputs": [
+      { "internalType": "string", "name": "link", "type": "string" },
+      { "internalType": "string", "name": "imageUrl", "type": "string" },
+      { "internalType": "uint256", "name": "price", "type": "uint256" },
+      { "internalType": "address", "name": "advertiser", "type": "address" },
+      { "internalType": "address", "name": "referrer", "type": "address" },
+      { "internalType": "bool", "name": "isActive", "type": "bool" },
+      { "internal Type": "uint256", "name": "engagements", "type": "uint256" },
+      { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "advertisers",
+    "outputs": [
+      { "internalType": "bool", "name": "hasAdvertised", "type": "bool" },
+      { "internalType": "uint256", "name": "lastAdIndex", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "totalEngagements",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastEngagementTime",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "level", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "awardWeeklyBonus"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "chefOfAdvertising",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "claimChiefOfAdvertising"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_link", "type": "string" },
+      { "internalType": "string", "name": "_imageUrl", "type": "string" },
+      { "internalType": "address", "name": "_referrer", "type": "address" }
+    ],
+    "stateMutability": "payable",
+    "type": "function",
+    "name": "createAdvertisement"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "currentChallenge",
+    "outputs": [
+      { "internalType": "string", "name": "description", "type": "string" },
+      { "internalType": "uint256", "name": "goal", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "currentProgress",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "reward", "type": "uint256" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "bool", "name": "completed", "type": "bool" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "currentEvent",
+    "outputs": [
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+      { "internalType": "uint256", "name": "endTime", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "rewardMultiplier",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_adIndex", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "deactivateAdvertisement"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getActiveAds",
+    "outputs": [
+      {
+        "internalType": "struct AdvertisementManager.Advertisement[]",
+        "name": "",
+        "type": "tuple[]",
+        "components": [
+          { "internalType": "string", "name": "link", "type": "string" },
+          { "internalType": "string", "name": "imageUrl", "type": "string" },
+          { "internalType": "uint256", "name": "price", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "advertiser",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "referrer", "type": "address" },
+          { "internalType": "bool", "name": "isActive", "type": "bool" },
+          {
+            "internalType": "uint256",
+            "name": "engagements",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+        ]
+      }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_address", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getAdTokenBalance",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_advertiser", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getAdvertiserInfo",
+    "outputs": [
+      { "internalType": "bool", "name": "", "type": "bool" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_advertiser", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getAdvertiserLevel",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_advertiser", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getAdvertiserTotalEngagements",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getCurrentAd",
+    "outputs": [
+      { "internalType": "string", "name": "", "type": "string" },
+      { "internalType": "string", "name": "", "type": "string" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "bool", "name": "", "type": "bool" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getCurrentChallengeInfo",
+    "outputs": [
+      { "internalType": "string", "name": "", "type": "string" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "bool", "name": "", "type": "bool" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getCurrentChief",
+    "outputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getCurrentEventInfo",
+    "outputs": [
+      { "internalType": "string", "name": "", "type": "string" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getEventRewardMultiplier",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "_indices", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getMultipleAds",
+    "outputs": [
+      {
+        "internalType": "struct AdvertisementManager.Advertisement[]",
+        "name": "",
+        "type": "tuple[]",
+        "components": [
+          { "internalType": "string", "name": "link", "type": "string" },
+          { "internalType": "string", "name": "imageUrl", "type": "string" },
+          { "internalType": "uint256", "name": "price", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "advertiser",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "referrer", "type": "address" },
+          { "internalType": "bool", "name": "isActive", "type": "bool" },
+          {
+            "internalType": "uint256",
+            "name": "engagements",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+        ]
+      }
+    ]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getNextAdPrice",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getReputationDiscount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getRoleAdmin",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getTimesAsChief",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getTotalAchievements",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getTotalAds",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserAchievementProgress",
+    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserChallengeParticipation",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserCreatedAds",
+    "outputs": [
+      {
+        "internalType": "struct AdvertisementManager.Advertisement[]",
+        "name": "",
+        "type": "tuple[]",
+        "components": [
+          { "internalType": "string", "name": "link", "type": "string" },
+          { "internalType": "string", "name": "imageUrl", "type": "string" },
+          { "internalType": "uint256", "name": "price", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "advertiser",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "referrer", "type": "address" },
+          { "internalType": "bool", "name": "isActive", "type": "bool" },
+          {
+            "internalType": "uint256",
+            "name": "engagements",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+        ]
+      }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserEngagedAds",
+    "outputs": [
+      {
+        "internalType": "struct AdvertisementManager.Advertisement[]",
+        "name": "",
+        "type": "tuple[]",
+        "components": [
+          { "internalType": "string", "name": "link", "type": "string" },
+          { "internalType": "string", "name": "imageUrl", "type": "string" },
+          { "internalType": "uint256", "name": "price", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "advertiser",
+            "type": "address"
+          },
+          { "internalType": "address", "name": "referrer", "type": "address" },
+          { "internalType": "bool", "name": "isActive", "type": "bool" },
+          {
+            "internalType": "uint256",
+            "name": "engagements",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+        ]
+      }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserEngagements",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserEventParticipation",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserReferralInfo",
+    "outputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "getUserStats",
+    "outputs": [
+      { "internalType": "uint256", "name": "adsCreated", "type": "uint256" },
+      { "internalType": "uint256", "name": "adsEngaged", "type": "uint256" },
+      { "internalType": "uint256", "name": "timesChief", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "referralsCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "achievementsUnlocked",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "challengeParticipation",
+        "type": "bool"
+      },
+      { "internalType": "bool", "name": "eventParticipation", "type": "bool" }
+    ]
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "grantRole"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_address", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "hasAdvertised",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "hasRole",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_user", "type": "address" },
+      { "internalType": "uint256", "name": "_achievementId", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "hasUnlockedAchievement",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "isSpecialEventActive",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "lastWeeklyResetTime",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "pauseContract"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "paused",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_adIndex", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "recordEngagement"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_tokenAddress", "type": "address" },
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "recoverERC20"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_referrer", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "refer"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "referrals",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }]
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "referrers",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      {
+        "internalType": "address",
+        "name": "callerConfirmation",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "renounceRole"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "revokeRole"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "uint256", "name": "_goal", "type": "uint256" },
+      { "internalType": "uint256", "name": "_reward", "type": "uint256" },
+      { "internalType": "uint256", "name": "_duration", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "startNewCommunityChallenge"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "uint256", "name": "_duration", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_rewardMultiplier",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "startSpecialEvent"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "supportsInterface",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "unpauseContract"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "userAchievements",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "userEngagements",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "userReputation",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function",
+    "name": "weeklyEngagements",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "withdraw"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "withdrawTokens"
+  }
+]
