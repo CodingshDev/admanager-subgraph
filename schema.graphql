@@ -179,3 +179,39 @@ type WithdrawCompleted @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+"""
+Represents global statistics for the entire system
+"""
+type GlobalStats @entity {
+  id: ID!
+  totalAdvertisements: BigInt!
+  totalEngagements: BigInt!
+  totalUsers: BigInt!
+  totalRewardsMinted: BigInt!
+}
+
+"""
+Represents a user in the system
+"""
+type User @entity {
+  id: ID!
+  address: Bytes!
+  level: BigInt!
+  reputation: BigInt!
+  achievementsCount: BigInt!
+  engagementsCount: BigInt!
+  totalRewardsEarned: BigInt!
+  referrals: [User!]! @derivedFrom(field: "referrer")
+  referrer: User
+}
+
+type Advertisement @entity {
+  id: ID!
+  link: String!
+  imageUrl: String!
+  price: BigInt!
+  advertiser: User!
+  referrer: User
+  engagementsCount: BigInt!
+  active: Boolean!
+}

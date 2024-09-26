@@ -1,3 +1,4 @@
+import { BigInt } from "@graphprotocol/graph-ts"
 import {
   AchievementUnlocked as AchievementUnlockedEvent,
   AdvertisementDeactivated as AdvertisementDeactivatedEvent,
@@ -38,7 +39,8 @@ import {
   SpecialEventStarted,
   Unpaused,
   WeeklyBonusMinted,
-  WithdrawCompleted
+  WithdrawCompleted,
+  Advertisement, User, GlobalStats
 } from "../generated/schema"
 
 export function handleAchievementUnlocked(
@@ -119,20 +121,46 @@ export function handleLevelUp(event: LevelUpEvent): void {
 }
 
 export function handleNewAdvertisement(event: NewAdvertisementEvent): void {
-  let entity = new NewAdvertisement(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.link = event.params.link
-  entity.imageUrl = event.params.imageUrl
-  entity.price = event.params.price
-  entity.advertiser = event.params.advertiser
-  entity.referrer = event.params.referrer
+  let advertisement = new Advertisement(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
+  let advertiser = User.load(event.params.advertiser.toHex())
+  let referrer = User.load(event.params.referrer.toHex())
+  let globalStats = GlobalStats.load("1")
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (globalStats == null) {
+    globalStats = new GlobalStats("1")
+    globalStats.totalAdvertisements = BigInt.fromI32(0)
+    globalStats.totalEngagements = BigInt.fromI32(0)
+    globalStats.totalUsers = BigInt.fromI32(0)
+    globalStats.totalRewardsMinted = BigInt.fromI32(0)
+  }
 
-  entity.save()
+  if (advertiser == null) {
+    advertiser = new User(event.params.advertiser.toHex())
+    advertiser.address = event.params.advertiser
+    advertiser.level = BigInt.fromI32(1)
+    advertiser.reputation = BigInt.fromI32(0)
+    advertiser.achievementsCount = BigInt.fromI32(0)
+    advertiser.engagementsCount = BigInt.fromI32(0)
+    advertiser.totalRewardsEarned = BigInt.fromI32(0)
+    globalStats.totalUsers = globalStats.totalUsers.plus(BigInt.fromI32(1))
+  }
+
+  advertisement.link = event.params.link
+  advertisement.imageUrl = event.params.imageUrl
+  advertisement.price = event.params.price
+  advertisement.advertiser = advertiser.id
+  advertisement.engagementsCount = BigInt.fromI32(0)
+  advertisement.active = true
+
+  if (referrer != null) {
+    advertisement.referrer = referrer.id
+  }
+
+  globalStats.totalAdvertisements = globalStats.totalAdvertisements.plus(BigInt.fromI32(1))
+
+  advertisement.save()
+  advertiser.save()
+  globalStats.save()
 }
 
 export function handleNewChiefOfAdvertising(
