@@ -1,187 +1,4 @@
-type AchievementUnlocked @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  achievementId: BigInt! # uint256
-  name: String! # string
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type AdvertisementDeactivated @entity(immutable: true) {
-  id: Bytes!
-  adIndex: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type EngagementRecorded @entity(immutable: true) {
-  id: Bytes!
-  adIndex: BigInt! # uint256
-  user: Bytes! # address
-  timestamp: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type EngagementRewardMinted @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type LevelUp @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  newLevel: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type NewAdvertisement @entity(immutable: true) {
-  id: Bytes!
-  link: String! # string
-  imageUrl: String! # string
-  price: BigInt! # uint256
-  advertiser: Bytes! # address
-  referrer: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type NewChiefOfAdvertising @entity(immutable: true) {
-  id: Bytes!
-  newChief: Bytes! # address
-  tokenBalance: BigInt! # uint256
-  referralLevel: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type NewCommunityChallenge @entity(immutable: true) {
-  id: Bytes!
-  description: String! # string
-  goal: BigInt! # uint256
-  reward: BigInt! # uint256
-  deadline: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type NewReferral @entity(immutable: true) {
-  id: Bytes!
-  referred: Bytes! # address
-  referrer: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Paused @entity(immutable: true) {
-  id: Bytes!
-  account: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type ReferralRewardDistributed @entity(immutable: true) {
-  id: Bytes!
-  referrer: Bytes! # address
-  reward: BigInt! # uint256
-  level: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type ReputationUpdated @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  newReputation: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleAdminChanged @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  previousAdminRole: Bytes! # bytes32
-  newAdminRole: Bytes! # bytes32
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleGranted @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  account: Bytes! # address
-  sender: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleRevoked @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  account: Bytes! # address
-  sender: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type SpecialEventStarted @entity(immutable: true) {
-  id: Bytes!
-  name: String! # string
-  startTime: BigInt! # uint256
-  endTime: BigInt! # uint256
-  rewardMultiplier: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Unpaused @entity(immutable: true) {
-  id: Bytes!
-  account: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type WeeklyBonusMinted @entity(immutable: true) {
-  id: Bytes!
-  user: Bytes! # address
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type WithdrawCompleted @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-"""
-Represents global statistics for the entire system
-"""
+# Representa estatísticas globais para todo o sistema
 type GlobalStats @entity {
   id: ID!
   totalAdvertisements: BigInt!
@@ -190,9 +7,7 @@ type GlobalStats @entity {
   totalRewardsMinted: BigInt!
 }
 
-"""
-Represents a user in the system
-"""
+# Representa um usuário no sistema
 type User @entity {
   id: ID!
   address: Bytes!
@@ -203,6 +18,7 @@ type User @entity {
   totalRewardsEarned: BigInt!
   referrals: [User!]! @derivedFrom(field: "referrer")
   referrer: User
+  advertisements: [Advertisement!]! @derivedFrom(field: "advertiser")
 }
 
 type Advertisement @entity {
@@ -214,4 +30,183 @@ type Advertisement @entity {
   referrer: User
   engagementsCount: BigInt!
   active: Boolean!
+  engagements: [EngagementRecorded!]! @derivedFrom(field: "advertisement")
+}
+
+type AchievementUnlocked @entity {
+  id: Bytes!
+  user: User!
+  achievementId: BigInt!
+  name: String!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type AdvertisementDeactivated @entity {
+  id: Bytes!
+  advertisement: Advertisement!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type EngagementRecorded @entity {
+  id: Bytes!
+  advertisement: Advertisement!
+  user: User!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type EngagementRewardMinted @entity {
+  id: Bytes!
+  user: User!
+  amount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LevelUp @entity {
+  id: Bytes!
+  user: User!
+  newLevel: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewAdvertisement @entity {
+  id: Bytes!
+  advertisement: Advertisement!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewChiefOfAdvertising @entity {
+  id: Bytes!
+  newChief: User!
+  tokenBalance: BigInt!
+  referralLevel: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewCommunityChallenge @entity {
+  id: Bytes!
+  description: String!
+  goal: BigInt!
+  reward: BigInt!
+  deadline: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewReferral @entity {
+  id: Bytes!
+  referred: User!
+  referrer: User!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Paused @entity {
+  id: Bytes!
+  account: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ReferralRewardDistributed @entity {
+  id: Bytes!
+  referrer: User!
+  reward: BigInt!
+  level: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ReputationUpdated @entity {
+  id: Bytes!
+  user: User!
+  newReputation: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RoleAdminChanged @entity {
+  id: Bytes!
+  role: Bytes!
+  previousAdminRole: Bytes!
+  newAdminRole: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RoleGranted @entity {
+  id: Bytes!
+  role: Bytes!
+  account: Bytes!
+  sender: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RoleRevoked @entity {
+  id: Bytes!
+  role: Bytes!
+  account: Bytes!
+  sender: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SpecialEventStarted @entity {
+  id: Bytes!
+  name: String!
+  startTime: BigInt!
+  endTime: BigInt!
+  rewardMultiplier: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Unpaused @entity {
+  id: Bytes!
+  account: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WeeklyBonusMinted @entity {
+  id: Bytes!
+  user: User!
+  amount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WithdrawCompleted @entity {
+  id: Bytes!
+  owner: User!
+  amount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
 }

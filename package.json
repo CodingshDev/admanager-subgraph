@@ -2,8 +2,8 @@
   "name": "admanager-subgraph",
   "license": "MIT",
   "scripts": {
-    "codegen": "graph codegen",
-    "build": "graph build",
+    "codegen": "envio codegen",
+    "start": "envio start",
     "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ developerfred/admanager-subgraph",
     "create-local": "graph create --node http://localhost:8020/ developerfred/admanager-subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ developerfred/admanager-subgraph",
@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.83.0",
-    "@graphprotocol/graph-ts": "0.32.0"
+    "@graphprotocol/graph-ts": "0.32.0",
+    "envio": "^2.3.2"
   },
-  "devDependencies": { "matchstick-as": "0.5.0" }
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
 }

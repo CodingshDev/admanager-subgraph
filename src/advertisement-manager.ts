@@ -1,32 +1,13 @@
-import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  AchievementUnlocked as AchievementUnlockedEvent,
-  AdvertisementDeactivated as AdvertisementDeactivatedEvent,
-  EngagementRecorded as EngagementRecordedEvent,
-  EngagementRewardMinted as EngagementRewardMintedEvent,
-  LevelUp as LevelUpEvent,
-  NewAdvertisement as NewAdvertisementEvent,
-  NewChiefOfAdvertising as NewChiefOfAdvertisingEvent,
-  NewCommunityChallenge as NewCommunityChallengeEvent,
-  NewReferral as NewReferralEvent,
-  Paused as PausedEvent,
-  ReferralRewardDistributed as ReferralRewardDistributedEvent,
-  ReputationUpdated as ReputationUpdatedEvent,
-  RoleAdminChanged as RoleAdminChangedEvent,
-  RoleGranted as RoleGrantedEvent,
-  RoleRevoked as RoleRevokedEvent,
-  SpecialEventStarted as SpecialEventStartedEvent,
-  Unpaused as UnpausedEvent,
-  WeeklyBonusMinted as WeeklyBonusMintedEvent,
-  WithdrawCompleted as WithdrawCompletedEvent
-} from "../generated/AdvertisementManager/AdvertisementManager"
-import {
+  AdvertisementManager,
+  User,
+  Advertisement,
+  GlobalStats,
   AchievementUnlocked,
   AdvertisementDeactivated,
   EngagementRecorded,
   EngagementRewardMinted,
   LevelUp,
-  NewAdvertisement,
   NewChiefOfAdvertising,
   NewCommunityChallenge,
   NewReferral,
@@ -39,323 +20,312 @@ import {
   SpecialEventStarted,
   Unpaused,
   WeeklyBonusMinted,
-  WithdrawCompleted,
-  Advertisement, User, GlobalStats
-} from "../generated/schema"
+  WithdrawCompleted
+} from "./generated";
+import { BigInt } from "@envio/bigint";
 
-export function handleAchievementUnlocked(
-  event: AchievementUnlockedEvent
-): void {
-  let entity = new AchievementUnlocked(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.user = event.params.user
-  entity.achievementId = event.params.achievementId
-  entity.name = event.params.name
+AdvertisementManager.AchievementUnlocked.handler(async ({ event, context }) => {
+  const entity: AchievementUnlocked = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    user: event.params.user,
+    achievementId: event.params.achievementId,
+    name: event.params.name,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.AchievementUnlocked.set(entity);
+});
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+AdvertisementManager.AdvertisementDeactivated.handler(async ({ event, context }) => {
+  const entity: AdvertisementDeactivated = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    adIndex: event.params.adIndex,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.AdvertisementDeactivated.set(entity);
+});
 
-  entity.save()
-}
+AdvertisementManager.EngagementRecorded.handler(async ({ event, context }) => {
+  const entity: EngagementRecorded = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    adIndex: event.params.adIndex,
+    user: event.params.user,
+    timestamp: event.params.timestamp,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.EngagementRecorded.set(entity);
 
-export function handleAdvertisementDeactivated(
-  event: AdvertisementDeactivatedEvent
-): void {
-  let entity = new AdvertisementDeactivated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.adIndex = event.params.adIndex
+  // Update related entities
+  const advertisementId = event.params.adIndex.toString();
+  const userId = event.params.user.toString();
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  let advertisement = await context.Advertisement.get(advertisementId);
+  let user = await context.User.get(userId);
+  let globalStats = await context.GlobalStats.get("1");
 
-  entity.save()
-}
+  if (advertisement && user && globalStats) {
+    advertisement.engagementsCount = advertisement.engagementsCount.add(BigInt(1));
+    user.engagementsCount = user.engagementsCount.add(BigInt(1));
+    globalStats.totalEngagements = globalStats.totalEngagements.add(BigInt(1));
 
-export function handleEngagementRecorded(event: EngagementRecordedEvent): void {
-  let entity = new EngagementRecorded(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.adIndex = event.params.adIndex
-  entity.user = event.params.user
-  entity.timestamp = event.params.timestamp
+    context.Advertisement.set(advertisement);
+    context.User.set(user);
+    context.GlobalStats.set(globalStats);
+  }
+});
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+AdvertisementManager.EngagementRewardMinted.handler(async ({ event, context }) => {
+  const entity: EngagementRewardMinted = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    user: event.params.user,
+    amount: event.params.amount,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.EngagementRewardMinted.set(entity);
+});
 
-  entity.save()
-}
+AdvertisementManager.LevelUp.handler(async ({ event, context }) => {
+  const entity: LevelUp = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    user: event.params.user,
+    newLevel: event.params.newLevel,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.LevelUp.set(entity);
 
-export function handleEngagementRewardMinted(
-  event: EngagementRewardMintedEvent
-): void {
-  let entity = new EngagementRewardMinted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.user = event.params.user
-  entity.amount = event.params.amount
+  // Update User entity
+  const userId = event.params.user.toString();
+  let user = await context.User.get(userId);
+  if (user) {
+    user.level = event.params.newLevel;
+    context.User.set(user);
+  }
+});
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+AdvertisementManager.NewAdvertisement.handler(async ({ event, context }) => {
+  const advertiserId = event.params.advertiser.toString();
+  const referrerId = event.params.referrer.toString();
 
-  entity.save()
-}
+  let advertiser = await context.User.get(advertiserId);
+  let globalStats = await context.GlobalStats.get("1");
 
-export function handleLevelUp(event: LevelUpEvent): void {
-  let entity = new LevelUp(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.user = event.params.user
-  entity.newLevel = event.params.newLevel
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleNewAdvertisement(event: NewAdvertisementEvent): void {
-  let advertisement = new Advertisement(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
-  let advertiser = User.load(event.params.advertiser.toHex())
-  let referrer = User.load(event.params.referrer.toHex())
-  let globalStats = GlobalStats.load("1")
-
-  if (globalStats == null) {
-    globalStats = new GlobalStats("1")
-    globalStats.totalAdvertisements = BigInt.fromI32(0)
-    globalStats.totalEngagements = BigInt.fromI32(0)
-    globalStats.totalUsers = BigInt.fromI32(0)
-    globalStats.totalRewardsMinted = BigInt.fromI32(0)
+  if (!globalStats) {
+    globalStats = {
+      id: "1",
+      totalAdvertisements: BigInt(0),
+      totalEngagements: BigInt(0),
+      totalUsers: BigInt(0),
+      totalRewardsMinted: BigInt(0)
+    };
   }
 
-  if (advertiser == null) {
-    advertiser = new User(event.params.advertiser.toHex())
-    advertiser.address = event.params.advertiser
-    advertiser.level = BigInt.fromI32(1)
-    advertiser.reputation = BigInt.fromI32(0)
-    advertiser.achievementsCount = BigInt.fromI32(0)
-    advertiser.engagementsCount = BigInt.fromI32(0)
-    advertiser.totalRewardsEarned = BigInt.fromI32(0)
-    globalStats.totalUsers = globalStats.totalUsers.plus(BigInt.fromI32(1))
+  if (!advertiser) {
+    advertiser = {
+      id: advertiserId,
+      address: event.params.advertiser,
+      level: BigInt(1),
+      reputation: BigInt(0),
+      achievementsCount: BigInt(0),
+      engagementsCount: BigInt(0),
+      totalRewardsEarned: BigInt(0)
+    };
+    globalStats.totalUsers = globalStats.totalUsers.add(BigInt(1));
   }
 
-  advertisement.link = event.params.link
-  advertisement.imageUrl = event.params.imageUrl
-  advertisement.price = event.params.price
-  advertisement.advertiser = advertiser.id
-  advertisement.engagementsCount = BigInt.fromI32(0)
-  advertisement.active = true
+  const advertisement: Advertisement = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    link: event.params.link,
+    imageUrl: event.params.imageUrl,
+    price: event.params.price,
+    advertiser: advertiser.id,
+    engagementsCount: BigInt(0),
+    active: true,
+    referrer: referrerId !== "0x0000000000000000000000000000000000000000" ? referrerId : undefined
+  };
 
-  if (referrer != null) {
-    advertisement.referrer = referrer.id
+  globalStats.totalAdvertisements = globalStats.totalAdvertisements.add(BigInt(1));
+
+  context.Advertisement.set(advertisement);
+  context.User.set(advertiser);
+  context.GlobalStats.set(globalStats);
+});
+
+AdvertisementManager.NewChiefOfAdvertising.handler(async ({ event, context }) => {
+  const entity: NewChiefOfAdvertising = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    newChief: event.params.newChief,
+    tokenBalance: event.params.tokenBalance,
+    referralLevel: event.params.referralLevel,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.NewChiefOfAdvertising.set(entity);
+});
+
+AdvertisementManager.NewCommunityChallenge.handler(async ({ event, context }) => {
+  const entity: NewCommunityChallenge = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    description: event.params.description,
+    goal: event.params.goal,
+    reward: event.params.reward,
+    deadline: event.params.deadline,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.NewCommunityChallenge.set(entity);
+});
+
+AdvertisementManager.NewReferral.handler(async ({ event, context }) => {
+  const entity: NewReferral = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    referred: event.params.referred,
+    referrer: event.params.referrer,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.NewReferral.set(entity);
+});
+
+AdvertisementManager.Paused.handler(async ({ event, context }) => {
+  const entity: Paused = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    account: event.params.account,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.Paused.set(entity);
+});
+
+AdvertisementManager.ReferralRewardDistributed.handler(async ({ event, context }) => {
+  const entity: ReferralRewardDistributed = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    referrer: event.params.referrer,
+    reward: event.params.reward,
+    level: event.params.level,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.ReferralRewardDistributed.set(entity);
+});
+
+AdvertisementManager.ReputationUpdated.handler(async ({ event, context }) => {
+  const entity: ReputationUpdated = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    user: event.params.user,
+    newReputation: event.params.newReputation,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.ReputationUpdated.set(entity);
+
+  // Update User entity
+  const userId = event.params.user.toString();
+  let user = await context.User.get(userId);
+  if (user) {
+    user.reputation = event.params.newReputation;
+    context.User.set(user);
   }
+});
 
-  globalStats.totalAdvertisements = globalStats.totalAdvertisements.plus(BigInt.fromI32(1))
+AdvertisementManager.RoleAdminChanged.handler(async ({ event, context }) => {
+  const entity: RoleAdminChanged = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    role: event.params.role,
+    previousAdminRole: event.params.previousAdminRole,
+    newAdminRole: event.params.newAdminRole,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.RoleAdminChanged.set(entity);
+});
 
-  advertisement.save()
-  advertiser.save()
-  globalStats.save()
-}
+AdvertisementManager.RoleGranted.handler(async ({ event, context }) => {
+  const entity: RoleGranted = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    role: event.params.role,
+    account: event.params.account,
+    sender: event.params.sender,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.RoleGranted.set(entity);
+});
 
-export function handleNewChiefOfAdvertising(
-  event: NewChiefOfAdvertisingEvent
-): void {
-  let entity = new NewChiefOfAdvertising(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.newChief = event.params.newChief
-  entity.tokenBalance = event.params.tokenBalance
-  entity.referralLevel = event.params.referralLevel
+AdvertisementManager.RoleRevoked.handler(async ({ event, context }) => {
+  const entity: RoleRevoked = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    role: event.params.role,
+    account: event.params.account,
+    sender: event.params.sender,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.RoleRevoked.set(entity);
+});
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+AdvertisementManager.SpecialEventStarted.handler(async ({ event, context }) => {
+  const entity: SpecialEventStarted = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    name: event.params.name,
+    startTime: event.params.startTime,
+    endTime: event.params.endTime,
+    rewardMultiplier: event.params.rewardMultiplier,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.SpecialEventStarted.set(entity);
+});
 
-  entity.save()
-}
+AdvertisementManager.Unpaused.handler(async ({ event, context }) => {
+  const entity: Unpaused = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    account: event.params.account,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.Unpaused.set(entity);
+});
 
-export function handleNewCommunityChallenge(
-  event: NewCommunityChallengeEvent
-): void {
-  let entity = new NewCommunityChallenge(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.description = event.params.description
-  entity.goal = event.params.goal
-  entity.reward = event.params.reward
-  entity.deadline = event.params.deadline
+AdvertisementManager.WeeklyBonusMinted.handler(async ({ event, context }) => {
+  const entity: WeeklyBonusMinted = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    user: event.params.user,
+    amount: event.params.amount,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.WeeklyBonusMinted.set(entity);
+});
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleNewReferral(event: NewReferralEvent): void {
-  let entity = new NewReferral(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.referred = event.params.referred
-  entity.referrer = event.params.referrer
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handlePaused(event: PausedEvent): void {
-  let entity = new Paused(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.account = event.params.account
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleReferralRewardDistributed(
-  event: ReferralRewardDistributedEvent
-): void {
-  let entity = new ReferralRewardDistributed(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.referrer = event.params.referrer
-  entity.reward = event.params.reward
-  entity.level = event.params.level
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleReputationUpdated(event: ReputationUpdatedEvent): void {
-  let entity = new ReputationUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.user = event.params.user
-  entity.newReputation = event.params.newReputation
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleRoleAdminChanged(event: RoleAdminChangedEvent): void {
-  let entity = new RoleAdminChanged(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.role = event.params.role
-  entity.previousAdminRole = event.params.previousAdminRole
-  entity.newAdminRole = event.params.newAdminRole
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleRoleGranted(event: RoleGrantedEvent): void {
-  let entity = new RoleGranted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.role = event.params.role
-  entity.account = event.params.account
-  entity.sender = event.params.sender
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleRoleRevoked(event: RoleRevokedEvent): void {
-  let entity = new RoleRevoked(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.role = event.params.role
-  entity.account = event.params.account
-  entity.sender = event.params.sender
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleSpecialEventStarted(
-  event: SpecialEventStartedEvent
-): void {
-  let entity = new SpecialEventStarted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.name = event.params.name
-  entity.startTime = event.params.startTime
-  entity.endTime = event.params.endTime
-  entity.rewardMultiplier = event.params.rewardMultiplier
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleUnpaused(event: UnpausedEvent): void {
-  let entity = new Unpaused(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.account = event.params.account
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleWeeklyBonusMinted(event: WeeklyBonusMintedEvent): void {
-  let entity = new WeeklyBonusMinted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.user = event.params.user
-  entity.amount = event.params.amount
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleWithdrawCompleted(event: WithdrawCompletedEvent): void {
-  let entity = new WithdrawCompleted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.owner = event.params.owner
-  entity.amount = event.params.amount
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
+AdvertisementManager.WithdrawCompleted.handler(async ({ event, context }) => {
+  const entity: WithdrawCompleted = {
+    id: `${event.transaction.hash}-${event.logIndex}`,
+    owner: event.params.owner,
+    amount: event.params.amount,
+    blockNumber: event.block.number,
+    blockTimestamp: event.block.timestamp,
+    transactionHash: event.transaction.hash
+  };
+  context.WithdrawCompleted.set(entity);
+});

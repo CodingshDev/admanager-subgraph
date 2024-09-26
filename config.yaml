@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: AdvertisementManager
+description: Indexer for the AdvertisementManager contract on Base network
+
+contracts:
+  - name: AdvertisementManager
+    handler: ./src/EventHandlers.ts
+    events:
+      - event: "AchievementUnlocked(address user, uint256 achievementId, string name)"
+      - event: "AdvertisementDeactivated(uint256 adIndex)"
+      - event: "EngagementRecorded(uint256 adIndex, address user, uint256 timestamp)"
+      - event: "EngagementRewardMinted(address user, uint256 amount)"
+      - event: "LevelUp(address user, uint256 newLevel)"
+      - event: "NewAdvertisement(string link, string imageUrl, uint256 price, address advertiser, address referrer)"
+      - event: "NewChiefOfAdvertising(address newChief, uint256 tokenBalance, uint256 referralLevel)"
+      - event: "NewCommunityChallenge(string description, uint256 goal, uint256 reward, uint256 deadline)"
+      - event: "NewReferral(address referred, address referrer)"
+      - event: "Paused(address account)"
+      - event: "ReferralRewardDistributed(address referrer, uint256 reward, uint256 level)"
+      - event: "ReputationUpdated(address user, uint256 newReputation)"
+      - event: "RoleAdminChanged(bytes32 role, bytes32 previousAdminRole, bytes32 newAdminRole)"
+      - event: "RoleGranted(bytes32 role, address account, address sender)"
+      - event: "RoleRevoked(bytes32 role, address account, address sender)"
+      - event: "SpecialEventStarted(string name, uint256 startTime, uint256 endTime, uint256 rewardMultiplier)"
+      - event: "Unpaused(address account)"
+      - event: "WeeklyBonusMinted(address user, uint256 amount)"
+      - event: "WithdrawCompleted(address owner, uint256 amount)"
+
+networks:
+  - id: 8453  # Base network
+    start_block: 20259379
+    contracts:
+      - name: AdvertisementManager
+        address: "0x020243968704ccF8202Afd1F1134a90953385877"
